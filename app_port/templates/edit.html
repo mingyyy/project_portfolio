@@ -4,6 +4,7 @@
     <h5>edit page</h5>
 
 <form action="{% url 'app_port:edit' %}" method="post">
+    {% csrf_token %}
     <p>{{user.username}}</p>
 
     <br>
@@ -11,7 +12,7 @@
     <table class="table">
           <tbody>
           <tr>
-              <input type="submit" name="bio_saved" value="Save channels">
+              <input type="submit" name="bio_saved" value="Save bio">
           </tr>
           <tr>
               <td>First name</td>
@@ -23,7 +24,7 @@
           </tr>
           <tr>
               <td>Bio</td>
-              <td><textarea name="bio" cols="30" rows="10" id="{{user.profile.bio}}"> </textarea></td>
+              <td><textarea name="bio" cols="30" rows="10">{{user.profile.bio}} </textarea></td>
           </tr>
 
           </tbody>
@@ -37,56 +38,54 @@
 
 </form>
 
-<form action="{% url 'app_port:edit' %}" method="post">
+<form action="{% url 'app_port:edit' %}" method="post" id="all_projects">
     {% csrf_token %}
-    <table class="table">
-      <tbody>
-      <tr>
-          <input type="submit" name="channels_saved" value="Save channels">
-          <input type="submit" name="channel_new" value="Add channel">
-
-      </tr>
-      {% for channel in channels %}
-      <tr>
-          <form action="{% url 'app_port:edit' %}" method="post">
-              {% csrf_token %}
-              <td scope="col"><input type="text" name="channel_name" value="{{channel.name}}"></td>
-              <td><input type="text" name="channel_url" value="{{channel.url}}"></td>
-              <input type="hidden" name="channelID" value="{{channel.id}}">
-              <td><input type="submit" name="channel_delete" value="Delete Channel"></td>
-          </form>
-      </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+              <input type="submit" name="channel_new" value="Add channel">
 </form>
+
+<table class="table">
+  <tbody>
+  {% for channel in channels %}
+  <tr>
+      <form action="{% url 'app_port:edit' %}" method="post">
+          {% csrf_token %}
+          <td scope="col"><input type="text" name="channel_name" value="{{channel.name}}" id="{{channel.id}}"></td>
+          <td><input type="text" name="channel_url" value="{{channel.url}}" id="{{channel.id}}"></td>
+          <input type="hidden" name="channelID" value="{{channel.id}}">
+          <td><input type="submit" name="channels_saved" value="Save channels"></td>
+          <td><input type="submit" name="channel_delete" value="Delete Channel" id="{{channel.id}}"></td>
+      </form>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
 
 <form action="{% url 'app_port:edit' %}" method="post">
     {% csrf_token %}
-    <table class="table">
-      <tbody>
-      <tr>
-          <input type="submit" name="projects_saved" value="Save projects">
-          <input type="submit" name="project_new" value="Add project">
-      </tr>
-      {% for project in projects %}
-      <tr>
-          <form action="{% url 'app_port:edit' %}" method="post">
-              {% csrf_token %}
-              <td scope="col"><input type="text" name="project_name" value="{{project.name}}">
-                  <br> <br>
-                  <input type="text" name="project_url" value="{{project.url}}">
-                  <br><br>
-                  <input type="hidden" name="projectID" value="{{project.id}}">
-                  <input type="submit" name="project_delete" value="Delete project">
-              </td>
-              <td scope="col"><textarea name="project_description" cols="30" rows="10">{{project.description}}</textarea></td>
-              <td scope="col"></td>
-          </form>
-      </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+    <input type="submit" name="project_new" value="Add project">
 </form>
+
+<table class="table">
+  <tbody>
+  {% for project in projects %}
+  <tr>
+      <form action="{% url 'app_port:edit' %}" method="post">
+          {% csrf_token %}
+          <td scope="col"><input type="text" name="project_name" value="{{project.name}}">
+              <br> <br>
+              <input type="text" name="project_url" value="{{project.url}}">
+              <br><br>
+              <input type="hidden" name="projectID" value="{{project.id}}">
+              <input type="submit" name="projects_saved" value="Save projects">
+               <br><br>
+              <input type="submit" name="project_delete" value="Delete project">
+          </td>
+          <td scope="col"><textarea name="project_description" cols="30" rows="10">{{project.description}}</textarea></td>
+          <td scope="col"></td>
+      </form>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}
