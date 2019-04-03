@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content%}
+<h5>Thank you for signing up a new account.</h5>
+<br>
+<form action="{% url 'app_user:register' %}" method ="POST">
+    {%csrf_token%}
+    {{ form.as_p}}
+
+    <button name="submit">Register</button>
+    <input type="hidden" name="next" value="{% url 'app_port:main' %}">
+</form>
+
+{% endblock%}
