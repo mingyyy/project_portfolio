@@ -37,6 +37,7 @@ class Project(models.Model):
 
 
 class Tag(models.Model):
+    category=models.CharField(max_length=50, null=False)
     name=models.CharField(max_length=50,null=False)
     users=models.ManyToManyField(User)
 

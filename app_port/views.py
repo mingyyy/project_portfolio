@@ -16,7 +16,10 @@ def main(request):
     prof=Profile.objects.all()
     pj=Project.objects.all()
     tag=Tag.objects.all()
-    context={"profile":prof, "project":pj, "tag":tag}
+    print(request.GET)
+    print(request.POST)
+
+    context={"profile":prof, "project":pj, "tags":tag}
     return render(request, 'main.html', context)
 
 

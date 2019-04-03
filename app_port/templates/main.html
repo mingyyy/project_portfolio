@@ -1,7 +1,63 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<h5>home page.      </h5>
+<h5>Choose your tags:</h5>
+<form method="post">
+    {%csrf_token%}
+<div class="btn-group">
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+           Year
+        </button>
+        <div class="dropdown-menu">
+            {% for tag in tags %}
+            {% if tag.category == "year" %}
+            <a class="dropdown-item" href="#">{{tag.name}}</a>
+            {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+           Program
+        </button>
+        <div class="dropdown-menu">
+            {% for tag in tags %}
+            {% if tag.category == "course" %}
+            <a class="dropdown-item" href="#">{{tag.name}}</a>
+            {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+           Location
+        </button>
+        <div class="dropdown-menu">
+            {% for tag in tags %}
+            {% if tag.category == "where" %}
+            <a class="dropdown-item" href="#">{{tag.name}}</a>
+            {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="btn-group">
+  <button type="submit" class="btn btn-primary">traveler</button>
+  <button type="submit" class="btn btn-primary">freelancer</button>
+  <button type="submit" class="btn btn-primary">digital nomad</button>
+</div>
+
+    <div class="btn-group">
+  <button type="submit" class="btn btn-primary" name="FrontEnd" value="Front End">Front End</button>
+  <button type="submit" class="btn btn-primary" name="BackEnd" value="Back End">Back End</button>
+  <button type="submit" class="btn btn-primary" name="FullStack" value="Full Stack">Full Stack</button>
+</div>
+    <input type="submit" value="Submit">
+</form>
+
+
 
 <p>{% if just_logged_out %}  You are successfully logged out {% endif %}</p>
 <div class="container weeks">
