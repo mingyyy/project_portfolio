@@ -7,8 +7,17 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
+    # default: somewhere in the world
     currentlocation = models.CharField(max_length=50, blank=True)
+    # ready or not to publish
     ready=models.BooleanField(default=False)
+    # # dropdown list: which course they took with CodingNomads, if more than one, pick either
+    # course=models.CharField(max_length=50, null=False)
+    # # dropdown list: which year they took the course
+    # year=models.IntegerField(null=False)
+    # # dropdown list: location of the course
+    # where= models.CharField(max_length=100, null=False)
+
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
