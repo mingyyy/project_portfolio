@@ -34,4 +34,5 @@ class Tag(models.Model):
 class Channel(models.Model):
     name=models.CharField(max_length=100,null=False)
     url=models.URLField()
+    userID = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=False, blank=False)
 
