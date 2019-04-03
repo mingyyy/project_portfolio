@@ -1,7 +1,49 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-    <h5>home page</h5>
+<h5>home page.      </h5>
 
+<p>{% if just_logged_out %}  You are successfully logged out {% endif %}</p>
+<div class="container weeks">
+
+    <div class="row">
+    <div class="col-12" style="background-color:LightGray;">
+
+          <div class="row">
+            <div class="col" style="background-color:transparent;">
+                      <div class="card" style="width:250px">
+                        <img class="card-img-top" src="{% static 'martin.jpg' %}" alt="Card image" style="width:100%">
+                        <div class="card-body">
+                          <h4 class="card-title">Mr. Martin</h4>
+                          <p class="card-text">Our coolest Python instructor from Austria who is also a Yoga enthusiatic.</p>
+                          <a href="https://www.linkedin.com/in/martinbreuss/" class="btn btn-primary">See LinkedIn Profile</a>
+                        </div>
+                      </div>
+            </div>
+            <div class="col" style="background-color:transparent;">
+                              <div class="card" style="width:250px">
+                        <div class="card-body">
+                          <h4 class="card-title" >Mr. Caden</h4>
+                          <p class="card-text">Our kindest Python instructor from the great United States of America.</p>
+                          <a href="https://www.linkedin.com/in/caden-mackenzie-965631110/" class="btn btn-primary">See LinkedIn Profile</a>
+                        </div>
+                        <img class="card-img-bottom" src="{% static 'caden.jpg' %}" alt="Card image" style="width:100%">
+                      </div>
+            </div>
+            <div class="col" style="background-color:transparent;">
+                      <div class="card" style="width:250px">
+                        <img class="card-img-top" src="{% static 'martin.jpg' %}" alt="Card image" style="width:100%">
+                        <div class="card-body">
+                          <h4 class="card-title">Mr. Martin</h4>
+                          <p class="card-text">Our coolest Python instructor from Austria who is also a Yoga enthusiatic.</p>
+                          <a href="https://www.linkedin.com/in/martinbreuss/" class="btn btn-primary">See LinkedIn Profile</a>
+                        </div>
+                      </div>
+            </div>
+          </div>
+
+    </div>
+    </div>
+</div>
 
 {% endblock %}
