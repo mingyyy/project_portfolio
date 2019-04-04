@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title>CodingNomads - Portfolio page</title>
 </head>
 <body>
@@ -26,19 +26,10 @@
 
                   <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-item nav-link" href="{% url 'app_port:main' %}"><span class="glyphicon glyphicon-home"></span>Main</a></li>
-                          <li class="nav-item"><a class="nav-item nav-link" href="#">About</a></li>
+                          <li class="nav-item"><a class="nav-item nav-link" href="{% url 'app_port:main' %}"><span class="fa fa-home"></span>Main</a></li>
+                          <li class="nav-item"><a class="nav-item nav-link" href="#"><span class="fa fa-info"></span>About</a></li>
+                          <li class="nav-item"><a class="nav-item nav-link" href="{% url 'app_port:edit'%}"><span class="fa fa-edit"></span>Edit</a></li>
                     </div>
-                    <li class="nav-item dropdown">
-                                  <!-- Dropdown -->
-                      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Batches
-                      </a>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">2019-Bali</a>
-                        <a class="dropdown-item" href="#">2018-Barcelona</a>
-                        <a class="dropdown-item" href="#">2018-Mexico</a>
-                      </div>
                     </li>
                    </div>
                   </ul>

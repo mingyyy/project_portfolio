@@ -23,21 +23,20 @@ def main(request):
     if request.method == 'POST':
         if "tag" in request.POST:
             v = request.POST["tag"]
-            print(v)
-            if not 'tag' in request.session:# or not request.session['tag']:
-                request.session['tag'] = v
+            if not 'tag' in request.session or not request.session['tag']:
+                request.session['tag'] = [v]
             else:
+                saved_list = request.session['tag']
                 if not v in request.session['tag']:
-                    saved_list = request.session['tag']
                     saved_list.append(v)
                     request.session['tag'] = saved_list
                 else:
-                    saved_list= request.session['tag']
                     saved_list.remove(v)
                     request.session['tag'] = saved_list
-
-        selected=request.session['tag']
+            selected=request.session['tag']
         choices={"choices":selected}
+
+
     context={"profile":prof, "project":pj, "tags":tag, "choices":choices}
     return render(request, 'main.html', context)
 

@@ -3,8 +3,25 @@
 {% block content %}
 <h5>Choose your tags:</h5>
 
-{% for i in choices.values %}
-<a>{{i}}  </a>
+
+
+{% for choice in choices.values %}
+    {% for i in choice %}
+        tag:{{i}}
+            {% for tag in tags %}
+                {% if i == tag.name %}
+                    tag_id:{{tag.id}}
+                        {% for p in profile %}
+                            {% for x in p.user.tag_set.all %}
+                                {% if x.id == tag.id %}
+                                    <p>user_id:{{p.user.id}}  user_name:{{p.user.username}}</p>
+
+                                {% endif %}
+                            {% endfor %}
+                        {%endfor%}
+                {%endif%}
+            {% endfor %}
+    {% endfor %}
 {% endfor %}
 
 <form method="post">{%csrf_token%}
@@ -26,12 +43,10 @@
         <div class="btn-group">
               <button type="submit" class="btn btn-primary" name="tag" value="{{tag.name}}">{{tag.name}}</button>
         </div>
-
     {% endif %}
     {% endfor %}
 
 </form>
-
 
 
 <p>{% if just_logged_out %}  You are successfully logged out {% endif %}</p>
@@ -48,11 +63,13 @@
                       <div class="card" style="width:200px">
                         <img class="card-img-top" src="#" alt="Card image" style="width:100%">
                         <div class="card-body">
-                          <h5 class="card-title">{{ p.user.id }}.{{p.user.first_name}}</h5>
-                          <p class="card-text">{{p.bio}}...</p>
-                          <a href="{% url 'app_port:main'  %}" class="btn btn-info">Check my projects</a>
+                          <p class="card-title">{{ p.user.id }}.{{p.user.first_name.title}}</p>
+                          <p class="card-text"><small>{{p.bio}}...{{p.user.tag.name}}</small>
+                              <a href="{% url 'app_port:main'  %}" class="btn btn-info">Read more</a></p>
+
                         </div>
                       </div>
+                <br>
             </div>
 
            {% endif %}{% endfor %}
