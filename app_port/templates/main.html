@@ -1,7 +1,96 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-    <h5>home page</h5>
+<h5>Choose your tags:</h5>
 
+{% for i in choices.values %}
+<a>{{i}}  </a>
+{% endfor %}
+
+<form method="post">
+    {%csrf_token%}
+<div class="btn-group">
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+           Year
+        </button>
+        <div class="dropdown-menu">
+            {% for tag in tags %}
+            {% if tag.category == "year" %}
+            <a class="dropdown-item" href="#">{{tag.name}}</a>
+            {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+           Program
+        </button>
+        <div class="dropdown-menu">
+            {% for tag in tags %}
+            {% if tag.category == "course" %}
+            <a class="dropdown-item" href="#">{{tag.name}}</a>
+            {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+           Location
+        </button>
+        <div class="dropdown-menu">
+            {% for tag in tags %}
+            {% if tag.category == "where" %}
+            <a class="dropdown-item" href="#">{{tag.name}}</a>
+            {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="btn-group">
+  <button type="submit" class="btn btn-primary" name="tag" value="Traveler">Traveler</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Freelancer">Freelancer</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Digital nomad">Digital nomad</button>
+</div>
+
+    <div class="btn-group">
+  <button type="submit" class="btn btn-primary" name="tag" value="Front End">Front End</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Back End">Back End</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Full Stack">Full Stack</button>
+</div>
+    <input type="submit" value="Submit">
+</form>
+
+
+
+<p>{% if just_logged_out %}  You are successfully logged out {% endif %}</p>
+<div class="container weeks">
+
+    <div class="row">
+    <div class="col-12" style="background-color:LightGray;">
+
+          <div class="row">
+
+            {% for p in profile %}{% if p.ready is True %}
+
+            <div class="col" style="background-color:transparent;">
+                      <div class="card" style="width:200px">
+                        <img class="card-img-top" src="{% static 'martin.jpg' %}" alt="Card image" style="width:100%">
+                        <div class="card-body">
+                          <h5 class="card-title">{{p.user.first_name}}</h5>
+                          <p class="card-text">{{p.bio}}...</p>
+                          <a href="{% url 'app_port:profile' p.user.id %}" class="btn btn-info">Check my projects</a>
+                        </div>
+                      </div>
+            </div>
+
+           {% endif %}{% endfor %}
+
+          </div>
+
+    </div>
+    </div>
+</div>
 
 {% endblock %}

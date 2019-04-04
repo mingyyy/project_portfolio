@@ -1,12 +1,51 @@
 from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.signals import user_logged_out
+from django.dispatch import receiver
+from django.contrib import messages
+from .models import Profile, Project, Tag, Channel
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Project, Channel, Tag
 from django.core.files.storage import FileSystemStorage
 
-# Create your views here.
+@receiver(user_logged_out)
+def on_user_logged_out(sender, request, **kwargs):
+    messages.add_message(request, messages.INFO, 'Logged out.')
+
+
 
 def main(request):
-    return render(request, "main.html")
+    prof=Profile.objects.all()
+    pj=Project.objects.all()
+    tag=Tag.objects.all()
+    choices={}
+    if request.method == 'POST':
+        for k, v in request.POST.items():
+            if k != 'csrfmiddlewaretoken':
+                if not 'tag' in request.session or not request.session['tag']:
+                    request.session['tag'] = [v]
+                else:
+                    saved_list = request.session['tag']
+                    saved_list.append(v)
+                    request.session['tag'] = saved_list
+
+        selected=request.session['tag']
+        selected=set(selected)
+        choices={"choices":selected}
+    context={"profile":prof, "project":pj, "tags":tag, "choices":choices}
+    return render(request, 'main.html', context)
+
+
+def profile(request, user_id):
+    prof=Profile.objects.get(id=user_id)
+    pj=Project.objects.get(id=user_id)
+    tag=Tag.objects.get(id=user_id)
+    channel=Channel.objects.get(id=user_id)
+    context={"profile":prof, "project":pj, "tag":tag, "channel":channel}
+    return render(request, "profile.html")
+
 
 @login_required
 def edit(request):
@@ -72,4 +111,5 @@ def edit(request):
     context["tags"]=tags
 
     return render(request, "edit.html", context)
+
 

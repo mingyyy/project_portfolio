@@ -7,8 +7,12 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
+    # default: somewhere in the world
     currentlocation = models.CharField(max_length=50, blank=True)
+    # ready or not to publish
+    ready=models.BooleanField(default=False)
     picture = models.ImageField(upload_to='profile_pictures', blank=True)
+
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -28,12 +32,14 @@ class Project(models.Model):
 
 
 class Tag(models.Model):
+    category=models.CharField(max_length=50, null=False)
     name=models.CharField(max_length=50,null=False)
     users=models.ManyToManyField(User)
 
 
 class Channel(models.Model):
+    userID = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=False, blank=False)
     name=models.CharField(max_length=100,null=False)
     url=models.URLField()
-    userID = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=False, blank=False)
+    
 
