@@ -7,59 +7,29 @@
 <a>{{i}}  </a>
 {% endfor %}
 
-<form method="post">
-    {%csrf_token%}
-<div class="btn-group">
-    <div class="btn-group">
-        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-           Year
-        </button>
-        <div class="dropdown-menu">
-            {% for tag in tags %}
-            {% if tag.category == "year" %}
-            <a class="dropdown-item" href="#">{{tag.name}}</a>
-            {% endif%}
-            {% endfor %}
-        </div>
-    </div>
-    <div class="btn-group">
-        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-           Program
-        </button>
-        <div class="dropdown-menu">
-            {% for tag in tags %}
-            {% if tag.category == "course" %}
-            <a class="dropdown-item" href="#">{{tag.name}}</a>
-            {% endif%}
-            {% endfor %}
-        </div>
-    </div>
-    <div class="btn-group">
-        <button type="submit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-           Location
-        </button>
-        <div class="dropdown-menu">
-            {% for tag in tags %}
-            {% if tag.category == "where" %}
-            <a class="dropdown-item" href="#">{{tag.name}}</a>
-            {% endif%}
-            {% endfor %}
-        </div>
-    </div>
-</div>
+<form method="post">{%csrf_token%}
 
-<div class="btn-group">
-  <button type="submit" class="btn btn-primary" name="tag" value="Traveler">Traveler</button>
-  <button type="submit" class="btn btn-primary" name="tag" value="Freelancer">Freelancer</button>
-  <button type="submit" class="btn btn-primary" name="tag" value="Digital nomad">Digital nomad</button>
-</div>
+{% for tag in tags %}
+    {% if choices %}
+        {% for i in choices.values %}
+                {% if tag.name in i%}
+                    <div class="btn-group">
+                      <button type="submit" class="btn btn-primary active" name="tag" value="{{tag.name}}">{{tag.name}}</button>
+                    </div>
+                {% else %}
+                    <div class="btn-group">
+                      <button type="submit" class="btn btn-primary" name="tag" value="{{tag.name}}">{{tag.name}}</button>
+                    </div>
+                {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="btn-group">
+              <button type="submit" class="btn btn-primary" name="tag" value="{{tag.name}}">{{tag.name}}</button>
+        </div>
 
-    <div class="btn-group">
-  <button type="submit" class="btn btn-primary" name="tag" value="Front End">Front End</button>
-  <button type="submit" class="btn btn-primary" name="tag" value="Back End">Back End</button>
-  <button type="submit" class="btn btn-primary" name="tag" value="Full Stack">Full Stack</button>
-</div>
-    <input type="submit" value="Submit">
+    {% endif %}
+    {% endfor %}
+
 </form>
 
 
@@ -76,11 +46,11 @@
 
             <div class="col" style="background-color:transparent;">
                       <div class="card" style="width:200px">
-                        <img class="card-img-top" src="{% static 'martin.jpg' %}" alt="Card image" style="width:100%">
+                        <img class="card-img-top" src="#" alt="Card image" style="width:100%">
                         <div class="card-body">
-                          <h5 class="card-title">{{p.user.first_name}}</h5>
+                          <h5 class="card-title">{{ p.user.id }}.{{p.user.first_name}}</h5>
                           <p class="card-text">{{p.bio}}...</p>
-                          <a href="{% url 'app_port:profile' p.user.id %}" class="btn btn-info">Check my projects</a>
+                          <a href="{% url 'app_port:main'  %}" class="btn btn-info">Check my projects</a>
                         </div>
                       </div>
             </div>

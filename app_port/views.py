@@ -15,34 +15,38 @@ def on_user_logged_out(sender, request, **kwargs):
     messages.add_message(request, messages.INFO, 'Logged out.')
 
 
-
 def main(request):
     prof=Profile.objects.all()
     pj=Project.objects.all()
     tag=Tag.objects.all()
     choices={}
     if request.method == 'POST':
-        for k, v in request.POST.items():
-            if k != 'csrfmiddlewaretoken':
-                if not 'tag' in request.session or not request.session['tag']:
-                    request.session['tag'] = [v]
-                else:
+        if "tag" in request.POST:
+            v = request.POST["tag"]
+            print(v)
+            if not 'tag' in request.session:# or not request.session['tag']:
+                request.session['tag'] = v
+            else:
+                if not v in request.session['tag']:
                     saved_list = request.session['tag']
                     saved_list.append(v)
                     request.session['tag'] = saved_list
+                else:
+                    saved_list= request.session['tag']
+                    saved_list.remove(v)
+                    request.session['tag'] = saved_list
 
         selected=request.session['tag']
-        selected=set(selected)
         choices={"choices":selected}
     context={"profile":prof, "project":pj, "tags":tag, "choices":choices}
     return render(request, 'main.html', context)
 
 
-def profile(request, user_id):
-    prof=Profile.objects.get(id=user_id)
-    pj=Project.objects.get(id=user_id)
-    tag=Tag.objects.get(id=user_id)
-    channel=Channel.objects.get(id=user_id)
+def profile(request, usernum):
+    prof=Profile.objects.get(id=usernum)
+    pj=Project.objects.get(id=usernum)
+    tag=Tag.objects.get(id=usernum)
+    channel=Channel.objects.get(id=usernum)
     context={"profile":prof, "project":pj, "tag":tag, "channel":channel}
     return render(request, "profile.html")
 
