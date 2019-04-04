@@ -49,15 +49,15 @@
 </div>
 
 <div class="btn-group">
-  <button type="submit" class="btn btn-primary" name="type" value="Traveler">Traveler</button>
-  <button type="submit" class="btn btn-primary" name="type" value="Freelancer">Freelancer</button>
-  <button type="submit" class="btn btn-primary" name="type" value="Digital nomad">Digital nomad</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Traveler">Traveler</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Freelancer">Freelancer</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Digital nomad">Digital nomad</button>
 </div>
 
     <div class="btn-group">
-  <button type="submit" class="btn btn-primary" name="focus" value="Front End">Front End</button>
-  <button type="submit" class="btn btn-primary" name="focus" value="Back End">Back End</button>
-  <button type="submit" class="btn btn-primary" name="focus" value="Full Stack">Full Stack</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Front End">Front End</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Back End">Back End</button>
+  <button type="submit" class="btn btn-primary" name="tag" value="Full Stack">Full Stack</button>
 </div>
     <input type="submit" value="Submit">
 </form>
@@ -71,36 +71,22 @@
     <div class="col-12" style="background-color:LightGray;">
 
           <div class="row">
+
+            {% for p in profile %}{% if p.ready is True %}
+
             <div class="col" style="background-color:transparent;">
-                      <div class="card" style="width:250px">
+                      <div class="card" style="width:200px">
                         <img class="card-img-top" src="{% static 'martin.jpg' %}" alt="Card image" style="width:100%">
                         <div class="card-body">
-                          <h4 class="card-title">Mr. Martin</h4>
-                          <p class="card-text">Our coolest Python instructor from Austria who is also a Yoga enthusiatic.</p>
-                          <a href="https://www.linkedin.com/in/martinbreuss/" class="btn btn-primary">See LinkedIn Profile</a>
+                          <h5 class="card-title">{{p.user.first_name}}</h5>
+                          <p class="card-text">{{p.bio}}...</p>
+                          <a href="{% url 'app_port:profile' p.user.id %}" class="btn btn-info">Check my projects</a>
                         </div>
                       </div>
             </div>
-            <div class="col" style="background-color:transparent;">
-                              <div class="card" style="width:250px">
-                        <div class="card-body">
-                          <h4 class="card-title" >Mr. Caden</h4>
-                          <p class="card-text">Our kindest Python instructor from the great United States of America.</p>
-                          <a href="https://www.linkedin.com/in/caden-mackenzie-965631110/" class="btn btn-primary">See LinkedIn Profile</a>
-                        </div>
-                        <img class="card-img-bottom" src="{% static 'caden.jpg' %}" alt="Card image" style="width:100%">
-                      </div>
-            </div>
-            <div class="col" style="background-color:transparent;">
-                      <div class="card" style="width:250px">
-                        <img class="card-img-top" src="{% static 'martin.jpg' %}" alt="Card image" style="width:100%">
-                        <div class="card-body">
-                          <h4 class="card-title">Mr. Martin</h4>
-                          <p class="card-text">Our coolest Python instructor from Austria who is also a Yoga enthusiatic.</p>
-                          <a href="https://www.linkedin.com/in/martinbreuss/" class="btn btn-primary">See LinkedIn Profile</a>
-                        </div>
-                      </div>
-            </div>
+
+           {% endif %}{% endfor %}
+
           </div>
 
     </div>

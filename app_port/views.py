@@ -17,10 +17,20 @@ def main(request):
     prof=Profile.objects.all()
     pj=Project.objects.all()
     tag=Tag.objects.all()
+    choices={}
+    if request.method == 'POST':
+        for k, v in request.POST.items():
+            if k != 'csrfmiddlewaretoken':
+                if not 'tag' in request.session or not request.session['tag']:
+                    request.session['tag'] = [v]
+                else:
+                    saved_list = request.session['tag']
+                    saved_list.append(v)
+                    request.session['tag'] = saved_list
 
-    for k, v in request.POST.items():
-        if k!='csrfmiddlewaretoken':
-            choices={"choices":v}
+        selected=request.session['tag']
+        selected=set(selected)
+        choices={"choices":selected}
     context={"profile":prof, "project":pj, "tags":tag, "choices":choices}
     return render(request, 'main.html', context)
 
