@@ -11,6 +11,7 @@ class Profile(models.Model):
     currentlocation = models.CharField(max_length=50, blank=True)
     # ready or not to publish
     ready=models.BooleanField(default=False)
+    picture = models.ImageField(upload_to='profile_pictures', blank=True)
 
 
     @receiver(post_save, sender=User)
@@ -37,5 +38,8 @@ class Tag(models.Model):
 
 
 class Channel(models.Model):
+    userID = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=False, blank=False)
     name=models.CharField(max_length=100,null=False)
     url=models.URLField()
+    
+
