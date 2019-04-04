@@ -11,12 +11,6 @@ class Profile(models.Model):
     currentlocation = models.CharField(max_length=50, blank=True)
     # ready or not to publish
     ready=models.BooleanField(default=False)
-    # # dropdown list: which course they took with CodingNomads, if more than one, pick either
-    # course=models.CharField(max_length=50, null=False)
-    # # dropdown list: which year they took the course
-    # year=models.IntegerField(null=False)
-    # # dropdown list: location of the course
-    # where= models.CharField(max_length=100, null=False)
 
 
     @receiver(post_save, sender=User)
@@ -46,3 +40,5 @@ class Channel(models.Model):
     name=models.CharField(max_length=100,null=False)
     url=models.URLField()
 
+class Selected(models.Model):
+    name=models.CharField(max_length=50,null=False)

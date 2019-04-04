@@ -16,10 +16,15 @@ def main(request):
     prof=Profile.objects.all()
     pj=Project.objects.all()
     tag=Tag.objects.all()
-    print(request.GET)
-    print(request.POST)
+    choice_store=[]
 
-    context={"profile":prof, "project":pj, "tags":tag}
+    for k, v in request.POST.items():
+        if k!='csrfmiddlewaretoken':
+            choice_store.append(v)
+
+
+    choices={"choices":choice_store}
+    context={"profile":prof, "project":pj, "tags":tag, "choices":choices}
     return render(request, 'main.html', context)
 
 
