@@ -3,17 +3,37 @@
 {% block content %}
     <h5>edit page</h5>
 
+<br>
+<input type="submit" name="save_profile" value="Save profile" form="form1">
+<input type="submit" name="delete_items" value="Delete selected" form="form1">
+
 <form action="{% url 'app_port:edit' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" name="project_new" value="Add project">
+</form>
+
+<form action="{% url 'app_port:edit' %}" method="post" id="all_projects">
+    {% csrf_token %}
+    <input type="submit" name="channel_new" value="Add channel">
+</form>
+
+<form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="picture">
+    <button type="submit">Upload</button>
+</form>
+
+<form action="{% url 'app_port:edit' %}" method="post" id="form1">
     {% csrf_token %}
     <p>{{user.username}}</p>
 
     <br>
 
+    <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
+<!--    <input type="file" name="picture" accept="image/*">-->
+
     <table class="table">
           <tbody>
-          <tr>
-              <input type="submit" name="bio_saved" value="Save bio">
-          </tr>
           <tr>
               <td>First name</td>
               <td><input type="text" name="first_name" value="{{user.first_name}}"></td>
@@ -26,66 +46,44 @@
               <td>Bio</td>
               <td><textarea name="bio" cols="30" rows="10">{{user.profile.bio}} </textarea></td>
           </tr>
-
           </tbody>
         </table>
-
     <p>
         {% for tag in tags %}
         {{tag.name}}
         {% endfor %}
     </p>
 
-</form>
+    <table class="table">
+      <tbody>
+      {% for channel in channels %}
+      <tr>
+          <td>Delete <input type="checkbox" name="delete" value="chan{{ channel.id }}"></td>
+          <td scope="col"><input type="text" name="chan{{channel.id}}" value="{{channel.name}}"></td>
+          <td><input type="text" name="chan{{channel.id}}" value="{{channel.url}}"></td>
+      </tr>
+      {% endfor %}
 
-<form action="{% url 'app_port:edit' %}" method="post" id="all_projects">
-    {% csrf_token %}
-              <input type="submit" name="channel_new" value="Add channel">
-</form>
+      </tbody>
+    </table>
 
-<table class="table">
-  <tbody>
-  {% for channel in channels %}
-  <tr>
-      <form action="{% url 'app_port:edit' %}" method="post">
-          {% csrf_token %}
-          <td scope="col"><input type="text" name="channel_name" value="{{channel.name}}" id="{{channel.id}}"></td>
-          <td><input type="text" name="channel_url" value="{{channel.url}}" id="{{channel.id}}"></td>
-          <input type="hidden" name="channelID" value="{{channel.id}}">
-          <td><input type="submit" name="channels_saved" value="Save channels"></td>
-          <td><input type="submit" name="channel_delete" value="Delete Channel" id="{{channel.id}}"></td>
-      </form>
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
-
-<form action="{% url 'app_port:edit' %}" method="post">
-    {% csrf_token %}
-    <input type="submit" name="project_new" value="Add project">
-</form>
-
-<table class="table">
-  <tbody>
-  {% for project in projects %}
-  <tr>
-      <form action="{% url 'app_port:edit' %}" method="post">
-          {% csrf_token %}
-          <td scope="col"><input type="text" name="project_name" value="{{project.name}}">
+    <table class="table">
+      <tbody>
+      {% for project in projects %}
+      <tr>
+          <td scope="col"><input type="text" name="proj{{project.id}}" value="{{project.name}}">
               <br> <br>
-              <input type="text" name="project_url" value="{{project.url}}">
+              <input type="text" name="proj{{project.id}}" value="{{project.url}}">
               <br><br>
-              <input type="hidden" name="projectID" value="{{project.id}}">
-              <input type="submit" name="projects_saved" value="Save projects">
-               <br><br>
-              <input type="submit" name="project_delete" value="Delete project">
+              Delete <input type="checkbox" name="delete" value="proj{{ project.id }}">
           </td>
-          <td scope="col"><textarea name="project_description" cols="30" rows="10">{{project.description}}</textarea></td>
+          <td scope="col"><textarea name="proj{{project.id}}" cols="30" rows="10">{{project.description}}</textarea></td>
           <td scope="col"></td>
-      </form>
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+</form>
 
 {% endblock %}
