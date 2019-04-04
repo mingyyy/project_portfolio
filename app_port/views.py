@@ -9,6 +9,11 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Project, Channel, Tag
 from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 
 @receiver(user_logged_out)
 def on_user_logged_out(sender, request, **kwargs):
@@ -94,12 +99,34 @@ def edit(request):
             Project.objects.create(name="New Project Title", description="Type your description here.", userID=user,
                                    url = "www.your-url-goes-here.com")
         elif request.FILES['picture']:
-            print(123)
-            picture = request.FILES['picture']
-            user.profile.picture = picture
-            user.save()
+            fin = Image.open(request.FILES['picture'])
+            width, height = fin.size
+            img_io = BytesIO()
 
+            if width > height:
+                dif = width - height
+                cut = dif/2
+                left = cut
+                top = 0
+                right = width - cut
+                bottom = height
+                fin2 =fin.crop((left, top, right, bottom))
 
+            elif width < height:
+                dif = height - width
+                cut = dif/2
+                left = 0
+                top = cut
+                right = width
+                bottom = height-cut
+                fin2 =fin.crop((left, top, right, bottom))
+
+            fin2.save(fp=img_io, format="JPEG")
+            image = ContentFile(img_io.getvalue())
+            user.profile.picture.save("image name1", InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
+            user.profile.save()
+
+            # thumb = InMemoryUploadedFile(fin, None, 'foo2.jpeg', 'image/jpeg', thumb_io.seek(0, os.SEEK_END), None)
 
     channels = Channel.objects.filter(userID=user.id)
     projects = Project.objects.filter(userID=user.id)
