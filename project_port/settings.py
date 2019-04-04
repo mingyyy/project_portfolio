@@ -50,7 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+
+SESSION_ENGINE =  'django.contrib.sessions.backends.cached_db'
 
 ROOT_URLCONF = 'project_port.urls'
 

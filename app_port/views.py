@@ -5,6 +5,7 @@ from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
 from django.contrib import messages
 from .models import Profile, Project, Tag, Channel
+from django.utils import timezone
 
 
 @receiver(user_logged_out)
@@ -16,14 +17,10 @@ def main(request):
     prof=Profile.objects.all()
     pj=Project.objects.all()
     tag=Tag.objects.all()
-    choice_store=[]
 
     for k, v in request.POST.items():
         if k!='csrfmiddlewaretoken':
-            choice_store.append(v)
-
-
-    choices={"choices":choice_store}
+            choices={"choices":v}
     context={"profile":prof, "project":pj, "tags":tag, "choices":choices}
     return render(request, 'main.html', context)
 

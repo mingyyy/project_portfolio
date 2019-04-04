@@ -39,6 +39,3 @@ class Tag(models.Model):
 class Channel(models.Model):
     name=models.CharField(max_length=100,null=False)
     url=models.URLField()
-
-class Selected(models.Model):
-    name=models.CharField(max_length=50,null=False)
