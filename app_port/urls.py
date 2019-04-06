@@ -6,5 +6,5 @@ app_name = "app_port"
 urlpatterns = [
     path('', views.main, name='main'),
     path('edit/', views.edit, name='edit'),
-    path('profile/<int:profile.userid>/', views.profile, name='profile'),
+    path('profile/<int:profile_userid>/', views.profile, name='profile'),
 ]
