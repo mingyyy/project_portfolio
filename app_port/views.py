@@ -145,6 +145,9 @@ def edit(request):
                 bottom = height-cut
                 fin2 =fin.crop((left, top, right, bottom))
 
+            else:
+                fin2 =fin
+
             fin2.save(fp=img_io, format="JPEG")
             image = ContentFile(img_io.getvalue())
             user.profile.picture.save("image name1", InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))

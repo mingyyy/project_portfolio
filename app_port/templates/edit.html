@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+    {% extends "base.html" %}
 
 {% block content %}
     <h5>edit page</h5>
@@ -29,8 +29,10 @@
 
     <br>
 
+    {% if user.profile.picture %}
     <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
-<!--    <input type="file" name="picture" accept="image/*">-->
+    {% endif %}
+
 
     <table class="table">
           <tbody>
