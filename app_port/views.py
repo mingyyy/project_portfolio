@@ -80,61 +80,67 @@ def profile(request, profile_userid):
 def edit(request):
     context = {}
     user = request.user
+
+    def save_profile(request, user):
+        user.first_name = request.POST["first_name"]
+        user.last_name = request.POST["last_name"]
+        user.profile.bio = request.POST["bio"]
+        user.save()
+
+        for key in request.POST.keys():
+            if key[0:4] == "chan" and key != "channel_delete":
+                channelID = int(key[4:])
+                channel = Channel.objects.get(id=channelID)
+                channel.name = request.POST.getlist(key)[0]
+                channel.url = request.POST.getlist(key)[1]
+                channel.save()
+            elif key[0:4] == "proj" and key != "project_delete":
+                projectID = int(key[4:])
+                project = Project.objects.get(id=projectID)
+                project.name = request.POST.getlist(key)[0]
+                project.url = request.POST.getlist(key)[1]
+                project.description = request.POST.getlist(key)[2]
+                project.save()
+
+
     if request.method == 'POST':
-        print(request.FILES)
-        if "save_profile" in request.POST:
-            user.first_name = request.POST["first_name"]
-            user.last_name = request.POST["last_name"]
-            user.profile.bio = request.POST["bio"]
-            user.save()
+        print(request.POST)
+        save_profile(request, user)
 
-            for key in request.POST.keys():
-                if key[0:4] == "chan":
-                    channelID = int(key[4:])
-                    channel = Channel.objects.get(id=channelID)
-                    channel.name = request.POST.getlist(key)[0]
-                    channel.url = request.POST.getlist(key)[1]
-                    channel.save()
-                elif key[0:4] == "proj":
-                    projectID = int(key[4:])
-                    project = Project.objects.get(id=projectID)
-                    project.name = request.POST.getlist(key)[0]
-                    project.url = request.POST.getlist(key)[1]
-                    project.description = request.POST.getlist(key)[2]
-                    project.save()
-                elif request.POST[key] != "":
-                    user.profile.picture = request.FILES
-                    user.save()
+        if "delete_channel" in request.POST:
+            delete_list= request.POST.getlist("delete")
+            for item in delete_list:
+                if item[0:4] == "chan":
+                    channelID = int(item[4:])
+                    Channel.objects.filter(id=channelID).delete()
 
-        elif "delete_items" in request.POST:
+        elif "delete_project" in request.POST:
             delete_list= request.POST.getlist("delete")
             for item in delete_list:
                 if item[0:4] == "proj":
                     projectID = int(item[4:])
                     Project.objects.filter(id=projectID).delete()
-                elif item[0:4] == "chan":
-                    channelID = int(item[4:])
-                    Channel.objects.filter(id=channelID).delete()
 
-        elif "channel_new" in request.POST:
+
+        elif "new_channel" in request.POST:
             Channel.objects.create(name="Channel name", url="www.your-url-goes-here.com", userID=user)
 
-        elif "project_new" in request.POST:
+        elif "new_project" in request.POST:
             Project.objects.create(name="New Project Title", description="Type your description here.", userID=user,
                                    url = "www.your-url-goes-here.com")
-        elif request.FILES['picture']:
-            fin = Image.open(request.FILES['picture'])
-            width, height = fin.size
+
+        elif "picture" in request.FILES:
+            fin1 = Image.open(request.FILES['picture'])
+            width, height = fin1.size
             img_io = BytesIO()
 
-            if width > height:
+            if width >= height:
                 dif = width - height
                 cut = dif/2
                 left = cut
                 top = 0
                 right = width - cut
                 bottom = height
-                fin2 =fin.crop((left, top, right, bottom))
 
             elif width < height:
                 dif = height - width
@@ -143,17 +149,14 @@ def edit(request):
                 top = cut
                 right = width
                 bottom = height-cut
-                fin2 =fin.crop((left, top, right, bottom))
 
-            else:
-                fin2 =fin
-
+            fin2 = fin1.crop((left, top, right, bottom)).resize((400,400), Image.LANCZOS)
             fin2.save(fp=img_io, format="JPEG")
             image = ContentFile(img_io.getvalue())
             user.profile.picture.save("image name1", InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
             user.profile.save()
 
-            # thumb = InMemoryUploadedFile(fin, None, 'foo2.jpeg', 'image/jpeg', thumb_io.seek(0, os.SEEK_END), None)
+            # thumb = InMemoryUploadedFile(fin1, None, 'foo2.jpeg', 'image/jpeg', thumb_io.seek(0, os.SEEK_END), None)
 
     channels = Channel.objects.filter(userID=user.id)
     projects = Project.objects.filter(userID=user.id)
