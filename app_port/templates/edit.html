@@ -1,51 +1,46 @@
-{% extends "base.html" %}
+    {% extends "base.html" %}
 
 {% block content %}
-    <h5>edit page</h5>
+    <h5>Hello {{user.username}}! Edit your profile here.</h5>
 
-<br>
-<input type="submit" name="save_profile" value="Save profile" form="form1">
-<input type="submit" name="delete_items" value="Delete selected" form="form1">
+    <form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="upload_picture">
+        {% csrf_token %}
+        </form>
 
-<form action="{% url 'app_port:edit' %}" method="post">
-    {% csrf_token %}
-    <input type="submit" name="project_new" value="Add project">
-</form>
 
-<form action="{% url 'app_port:edit' %}" method="post" id="all_projects">
-    {% csrf_token %}
-    <input type="submit" name="channel_new" value="Add channel">
-</form>
 
-<form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="picture">
-    <button type="submit">Upload</button>
-</form>
+</table>
 
 <form action="{% url 'app_port:edit' %}" method="post" id="form1">
     {% csrf_token %}
-    <p>{{user.username}}</p>
 
     <br>
 
-    <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
-<!--    <input type="file" name="picture" accept="image/*">-->
+
 
     <table class="table">
           <tbody>
-          <tr>
-              <td>First name</td>
-              <td><input type="text" name="first_name" value="{{user.first_name}}"></td>
-          </tr>
-          <tr>
-              <td>Last name</td>
-              <td><input type="text" name="last_name" value="{{user.last_name}}"></td>
-          </tr>
-          <tr>
-              <td>Bio</td>
-              <td><textarea name="bio" cols="30" rows="10">{{user.profile.bio}} </textarea></td>
-          </tr>
+          <td>
+              {% if user.profile.picture %}
+            <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
+              <input type="file" name="picture"> <button type="submit" form="upload_picture">Upload</button>
+            {% endif %}
+          </td>
+          <td>
+              <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn">
+              <tr>
+                  <td>First name</td>
+                  <td><input type="text" name="first_name" value="{{user.first_name}}"></td>
+              </tr>
+              <tr>
+                  <td>Last name</td>
+                  <td><input type="text" name="last_name" value="{{user.last_name}}"></td>
+              </tr>
+              <tr>
+                  <td>Bio</td>
+                  <td><textarea name="bio" cols="30" rows="10">{{user.profile.bio}} </textarea></td>
+              </tr>
+              </td>
           </tbody>
         </table>
     <p>
@@ -56,6 +51,8 @@
 
     <table class="table">
       <tbody>
+      <input type="submit" name="new_channel" value="Add channel" class="btn" form="form1">
+      <input type="submit" name="delete_channel" value="Delete selected channels" form="form1" class="btn">
       {% for channel in channels %}
       <tr>
           <td>Delete <input type="checkbox" name="delete" value="chan{{ channel.id }}"></td>
@@ -69,6 +66,8 @@
 
     <table class="table">
       <tbody>
+      <input type="submit" name="new_project" value="Add project" class="btn" form="form1">
+      <input type="submit" name="delete_project" value="Delete selected projects" form="form1" class="btn">
       {% for project in projects %}
       <tr>
           <td scope="col"><input type="text" name="proj{{project.id}}" value="{{project.name}}">
