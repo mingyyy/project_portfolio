@@ -52,7 +52,7 @@
                               <div class="card" style="width:200px"><div class="text-center">
                                 <img class="rounded-circle" src="{{p.picture.url}}" alt="Card image" style="width:80%"></div>
                                 <div class="card-body">
-                                  <p class="card-title">{{p.user.first_name.title}} {{p.user.last_name.title}}{{p.user.id}}</p>
+                                  <p class="card-title">{{p.user.first_name.title}} {{p.user.last_name.title}}</p>
                                   <p class="card-text"><small>{{p.bio|truncatechars:47}}...</small>
                                       <a href="{% url 'app_port:profile' p.user.id  %}" class="card-link"><small>Read more</small></a></p>
 
