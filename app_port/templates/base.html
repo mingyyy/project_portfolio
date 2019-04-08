@@ -11,45 +11,26 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title>CodingNomads - Portfolio page</title>
 </head>
 <body>
       <header class="site-header">
           <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-              <a class="navbar-brand mr-4" href="https://codingnomads.co"><img src="{% static 'CN_Logo_Retina.png' %}" alt="codingnomad-log" width="200" height="50"></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-              </button>
-                <ul class="navbar-nav">
+              <a class="navbar-brand mr-4" href="https://codingnomads.co"><img src="{% static 'CN_Logo_Retina.png' %}" alt="codingnomad-log" width="200" height="66"></a>
 
+                <ul class="navbar-nav align-items-end mr-auto">
                   <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-item nav-link" href="{% url 'app_port:main' %}"><span class="glyphicon glyphicon-home"></span>Main</a></li>
-                          <li class="nav-item"><a class="nav-item nav-link" href="#">About</a></li>
+                          <li class="nav-item"><a class="nav-item nav-link" href="{% url 'app_port:main' %}"><span class="fa fa-home"></span>Main</a></li>
+                          <li class="nav-item"><a class="nav-item nav-link" href="#"><span class="fa fa-info"></span>About</a></li>
+                          <li class="nav-item"><a class="nav-item nav-link" href="{% url 'app_port:edit'%}"><span class="fa fa-edit"></span>Edit</a></li>
                     </div>
-                    <li class="nav-item dropdown">
-                                  <!-- Dropdown -->
-                      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Batches
-                      </a>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">2019-Bali</a>
-                        <a class="dropdown-item" href="#">2018-Barcelona</a>
-                        <a class="dropdown-item" href="#">2018-Mexico</a>
-                      </div>
                     </li>
                    </div>
-                  </ul>
-
-                    <nav class="navbar navbar-expand-sm  navbar-dark">
-                      <form class="form-inline" action="/action_page.php">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-success" type="submit">Search</button>
-                      </form>
-                    </nav>
-                <!-- Navbar Right Side -->
+                </ul>
+                <!--display on the right-->
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
                   <a class="nav-item nav-link" href="{% url 'app_user:logout' %}">Log out</a>
@@ -64,7 +45,7 @@
           </nav>
         </header>
 
-
+      <br><br>
    <main role="main" class="container">
       <div class="row">
         <div class="col-md-12">
@@ -73,17 +54,6 @@
             {% endblock %}
         </div>
         <div class="col-md-0">
-          <!--<div class="content-section">-->
-            <!--<h3>Our Sidebar</h3>-->
-            <!--<p class='text-muted'>You can put any information here you'd like.-->
-              <!--<ul class="list-group">-->
-                <!--<li class="list-group-item list-group-item-light">Latest Posts</li>-->
-                <!--<li class="list-group-item list-group-item-light">Announcements</li>-->
-                <!--<li class="list-group-item list-group-item-light">Calendars</li>-->
-                <!--<li class="list-group-item list-group-item-light">etc</li>-->
-              <!--</ul>-->
-            <!--</p>-->
-          <!--</div>-->
         </div>
       </div>
        <br>
