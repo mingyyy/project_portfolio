@@ -3,87 +3,101 @@
 {% block content %}
     <h5>Hello {{user.username}}! Edit your profile here.</h5>
 
-    <form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="upload_picture">
-        <input type="file" name="picture"> <button type="submit" form="upload_picture">Upload</button>
+<form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="form1">
+    <div class="row">
+        <div class="col-sm-4">
+            {% if user.profile.picture %}
+                <img src="{{user.profile.picture.url}}" alt="profile picture" width="100%"><br>
+            {% endif %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <input type="file" onchange="this.form.submit()" name="picture" class="custom-file-input" id="inputGroupFile01">
+                    <label class="custom-file-label" for="inputGroupFile01">Select profile picture</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-8">
+            <div class="form-row">
+                <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn">
+            </div>
+            <div class="form-row">
+                <div class="col-sm-2">
+                    First name
+                </div>
+                <div class="col-sm-10">
+                    <input type="text" name="first_name" value="{{user.first_name}}" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-2">
+                    Last name
+                </div>
+                <div class="col-sm-10">
+                    <input type="text" name="last_name" value="{{user.last_name}}" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-2">
+                    Bio
+                </div>
+                <div class="col-sm-10">
+                    <textarea name="bio" class="form-control">{{user.profile.bio}} </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
         {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-6">
+              <input type="submit" name="new_channel" value="Add channel" class="btn" form="form1">
+              <input type="submit" name="delete_channel" value="Delete selected channels" form="form1" class="btn">
+                <br>
+                {% for channel in channels %}
+                 <div class="form-row">
+                    <div class="col-2">
+                      Delete <input type="checkbox" name="delete" value="chan{{ channel.id }}" >
+                    </div>
+                    <div class="col-4">
+                      <input type="text" name="chan{{channel.id}}" value="{{channel.name}}" class="form-control" >
+                        </div>
+                    <div class="col-6">
+                      <input type="text" name="chan{{channel.id}}" value="{{channel.url}}" class="form-control" >
+                    </div>
+                 </div>
+                    <br>
+                {% endfor %}
+            </div>
+
+            <div class="col-sm-6">
+                <input type="submit" name="new_project" value="Add project" class="btn" form="form1">
+                <input type="submit" name="delete_project" value="Delete selected projects" form="form1" class="btn">
+                <br>
+                {% for project in projects %}
+                    <div class="form-row">
+                        <div class="col-2">
+                            Delete <input type="checkbox" name="delete" value="proj{{ project.id }}">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" name="proj{{project.id}}" value="{{project.name}}" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="proj{{project.id}}" value="{{project.url}}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                             <textarea name="proj{{project.id}}" class="form-control">{{project.description}}</textarea>
+                        </div>
+                    </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
     </form>
 
-
-
-</table>
-
-<form action="{% url 'app_port:edit' %}" method="post" id="form1">
-    {% csrf_token %}
-
-    <br>
-
-
-
-    <table class="table">
-          <tbody>
-          <td>
-            {% if user.profile.picture %}
-                <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
-            {% endif %}
-
-          </td>
-          <td>
-              <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn">
-              <tr>
-                  <td>First name</td>
-                  <td><input type="text" name="first_name" value="{{user.first_name}}"></td>
-              </tr>
-              <tr>
-                  <td>Last name</td>
-                  <td><input type="text" name="last_name" value="{{user.last_name}}"></td>
-              </tr>
-              <tr>
-                  <td>Bio</td>
-                  <td><textarea name="bio" cols="30" rows="10">{{user.profile.bio}} </textarea></td>
-              </tr>
-              </td>
-          </tbody>
-        </table>
-    <p>
-        {% for tag in tags %}
-        {{tag.name}}
-        {% endfor %}
-    </p>
-
-    <table class="table">
-      <tbody>
-      <input type="submit" name="new_channel" value="Add channel" class="btn" form="form1">
-      <input type="submit" name="delete_channel" value="Delete selected channels" form="form1" class="btn">
-      {% for channel in channels %}
-      <tr>
-          <td>Delete <input type="checkbox" name="delete" value="chan{{ channel.id }}"></td>
-          <td scope="col"><input type="text" name="chan{{channel.id}}" value="{{channel.name}}"></td>
-          <td><input type="text" name="chan{{channel.id}}" value="{{channel.url}}"></td>
-      </tr>
-      {% endfor %}
-
-      </tbody>
-    </table>
-
-    <table class="table">
-      <tbody>
-      <input type="submit" name="new_project" value="Add project" class="btn" form="form1">
-      <input type="submit" name="delete_project" value="Delete selected projects" form="form1" class="btn">
-      {% for project in projects %}
-      <tr>
-          <td scope="col"><input type="text" name="proj{{project.id}}" value="{{project.name}}">
-              <br> <br>
-              <input type="text" name="proj{{project.id}}" value="{{project.url}}">
-              <br><br>
-              Delete <input type="checkbox" name="delete" value="proj{{ project.id }}">
-          </td>
-          <td scope="col"><textarea name="proj{{project.id}}" cols="30" rows="10">{{project.description}}</textarea></td>
-          <td scope="col"></td>
-      </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-
-</form>
 
 {% endblock %}

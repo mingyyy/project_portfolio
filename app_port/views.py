@@ -14,7 +14,8 @@ from django.core.files.base import ContentFile
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
+from project_portfolio.settings import BASE_DIR
+import os
 
 @receiver(user_logged_out)
 def on_user_logged_out(sender, request, **kwargs):
@@ -108,12 +109,9 @@ def edit(request):
 
 
     if request.method == 'POST':
-        print(request.POST)
-        print(request.FILES)
+        save_profile(request, user)
 
         if "delete_channel" in request.POST:
-            save_profile(request, user)
-
             delete_list= request.POST.getlist("delete")
             for item in delete_list:
                 if item[0:4] == "chan":
@@ -121,30 +119,33 @@ def edit(request):
                     Channel.objects.filter(id=channelID).delete()
 
         elif "delete_project" in request.POST:
-            save_profile(request, user)
-
             delete_list= request.POST.getlist("delete")
             for item in delete_list:
                 if item[0:4] == "proj":
                     projectID = int(item[4:])
                     Project.objects.filter(id=projectID).delete()
 
-
         elif "new_channel" in request.POST:
-            save_profile(request, user)
-
             Channel.objects.create(name="Channel name", url="www.your-url-goes-here.com", userID=user)
 
         elif "new_project" in request.POST:
-            save_profile(request, user)
-
             Project.objects.create(name="New Project Title", description="Type your description here.", userID=user,
                                    url = "www.your-url-goes-here.com")
 
         elif "picture" in request.FILES:
+            #delete existing picture:
+            filepath = os.path.join(BASE_DIR, "app_port/media/profile_pictures/")
+            filename = "userID" + str(user.id)
+            try:
+                os.remove(filepath + filename)
+            except FileNotFoundError:
+                pass
+
+            #open the new picture
             fin1 = Image.open(request.FILES['picture'])
+
+            #check the size and define how to crop, then crop and resize
             width, height = fin1.size
-            img_io = BytesIO()
 
             if width >= height:
                 dif = width - height
@@ -163,12 +164,12 @@ def edit(request):
                 bottom = height-cut
 
             fin2 = fin1.crop((left, top, right, bottom)).resize((400,400), Image.LANCZOS)
+
+            #save the new picture
+            img_io = BytesIO()
             fin2.save(fp=img_io, format="JPEG")
             image = ContentFile(img_io.getvalue())
-            user.profile.picture.save("image name1", InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
-            user.profile.save()
-
-            # thumb = InMemoryUploadedFile(fin1, None, 'foo2.jpeg', 'image/jpeg', thumb_io.seek(0, os.SEEK_END), None)
+            user.profile.picture.save(filename, InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
 
     channels = Channel.objects.filter(userID=user.id)
     projects = Project.objects.filter(userID=user.id)
