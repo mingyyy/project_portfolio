@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
@@ -52,7 +53,6 @@ def main(request):
                     if v["id"] in readylist:
                         if len(profile_set) == 0:
                             userids.append(v["id"])
-
     userids=set(userids)
     for i in userids:
         prof = Profile.objects.filter(id=int(i))
@@ -74,6 +74,10 @@ def profile(request, profile_userid):
     channel=Channel.objects.get(id=profile_userid)
     context={"profile":prof, "project":pj, "tag":tag, "channel":channel}
     return render(request, "profile.html")
+
+
+def about(request):
+    return render(request, "about.html")
 
 
 @login_required

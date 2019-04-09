@@ -23,10 +23,10 @@ def register(request):
 
 def logout_view(request):
     '''log the user out.'''
-    session_key = request.data['sessionKey']
-    session = Session.objects.get(session_key=session_key)
-    Session.objects.filter(session_key=session).delete()
-    Session.objects.all().delete()
+    # session_key = request.data['sessionKey']
+    # session = Session.objects.get(session_key=session_key)
+    # Session.objects.filter(session_key=session).delete()
+    # Session.objects.all().delete()
 
     logout(request)
     return HttpResponseRedirect(reverse('app_port:main'))

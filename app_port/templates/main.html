@@ -50,12 +50,19 @@
 
                     <div class="col" style="background-color:transparent; width:200px">
                               <div class="card" style="width:200px"><div class="text-center">
+                                  <div class="card-header" style="background-color:transparent;border:transparent">
+                                      {{p.user.first_name.title}} {{p.user.last_name.title}}
+                                  </div>
                                 <img class="rounded-circle" src="{{p.picture.url}}" alt="Card image" style="width:80%"></div>
                                 <div class="card-body">
-                                  <p class="card-title">{{p.user.first_name.title}} {{p.user.last_name.title}}</p>
-                                  <p class="card-text"><small>{{p.bio|truncatechars:47}}...</small>
-                                      <a href="{% url 'app_port:profile' p.user.id  %}" class="card-link"><small>Read more</small></a></p>
-
+                                  <!--<p class="card-title"></p>-->
+                                    {% if p.bio%}
+                                    <p class="card-text"><small>{{p.bio|truncatechars:45}}...Please check my
+                                            <a href="{% url 'app_port:about' %}" class="stretched-link">projects</a>.</small></p>
+                                    {% else %}
+                                    <p class="card-text"><small>I have not written my bio page yet. It please check my
+                                        <a href="{% url 'app_port:about' %}" class="stretched-link">projects</a>.</small></p>
+                                    {% endif %}
                                 </div>
                               </div>
                         <br>
@@ -67,24 +74,27 @@
 
              {% for p in profile %}
 
-                    <div class="col" style="background-color:LightGray; ">
+                    <div class="col" style="background-color:transparent; width:200px">
                               <div class="card" style="width:200px"><div class="text-center">
+                                  <div class="card-header" style="background-color:transparent;border:transparent">
+                                      {{p.user.first_name.title}} {{p.user.last_name.title}}
+                                  </div>
                                 <img class="rounded-circle" src="{{p.picture.url}}" alt="Card image" style="width:80%"></div>
                                 <div class="card-body">
-                                  <p class="card-title">{{p.user.first_name.title}} {{p.user.last_name.title}}</p>
-                                  <p class="card-text"><small>{{p.bio|truncatechars:47}}...</small>
-                                      <a href="{% url 'app_port:profile' p.user.id  %}" class="card-link"><small>Read more</small></a></p>
+                                    {% if p.bio%}
+                                        <p class="card-text"><small>{{p.bio|truncatechars:45}}...Please check my
+                                            <a href="{% url 'app_port:about' %}" class="stretched-link">projects</a>.</small>
+                                    {% else %}
+                                        <p class="card-text"><small>Hi! My bio page is not ready yet. But please check my
+                                    <a href="{% url 'app_port:about' %}" class="stretched-link">projects</a>.</small></p>
+                                    {% endif %}
                                 </div>
                               </div>
                         <br>
                     </div>
              {% endfor %}
-
           {% endif %}
-
-
           </div>
-
     </div>
     </div>
 </div>
