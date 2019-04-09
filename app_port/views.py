@@ -105,9 +105,11 @@ def edit(request):
 
     if request.method == 'POST':
         print(request.POST)
-        save_profile(request, user)
+        print(request.FILES)
 
         if "delete_channel" in request.POST:
+            save_profile(request, user)
+
             delete_list= request.POST.getlist("delete")
             for item in delete_list:
                 if item[0:4] == "chan":
@@ -115,6 +117,8 @@ def edit(request):
                     Channel.objects.filter(id=channelID).delete()
 
         elif "delete_project" in request.POST:
+            save_profile(request, user)
+
             delete_list= request.POST.getlist("delete")
             for item in delete_list:
                 if item[0:4] == "proj":
@@ -123,9 +127,13 @@ def edit(request):
 
 
         elif "new_channel" in request.POST:
+            save_profile(request, user)
+
             Channel.objects.create(name="Channel name", url="www.your-url-goes-here.com", userID=user)
 
         elif "new_project" in request.POST:
+            save_profile(request, user)
+
             Project.objects.create(name="New Project Title", description="Type your description here.", userID=user,
                                    url = "www.your-url-goes-here.com")
 

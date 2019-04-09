@@ -4,8 +4,9 @@
     <h5>Hello {{user.username}}! Edit your profile here.</h5>
 
     <form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="upload_picture">
+        <input type="file" name="picture"> <button type="submit" form="upload_picture">Upload</button>
         {% csrf_token %}
-        </form>
+    </form>
 
 
 
@@ -21,10 +22,10 @@
     <table class="table">
           <tbody>
           <td>
-              {% if user.profile.picture %}
-            <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
-              <input type="file" name="picture"> <button type="submit" form="upload_picture">Upload</button>
+            {% if user.profile.picture %}
+                <img src="{{user.profile.picture.url}}" alt="profile picture" width="240"> <br>
             {% endif %}
+
           </td>
           <td>
               <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn">

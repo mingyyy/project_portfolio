@@ -40,7 +40,7 @@
 <div class="container weeks">
 
     <div class="row">
-    <div class="col-12" style="background-color:LightGray;">
+    <div class="col-12" style="background-color:transparent;">
 
           <div class="row">
           {% if choices %}
@@ -48,7 +48,7 @@
                 {% for person in chosen%}
                     {%for p in person %}
 
-                    <div class="col" style="background-color:transparent;">
+                    <div class="col" style="background-color:transparent; width:200px">
                               <div class="card" style="width:200px"><div class="text-center">
                                 <img class="rounded-circle" src="{{p.picture.url}}" alt="Card image" style="width:80%"></div>
                                 <div class="card-body">
@@ -67,7 +67,7 @@
 
              {% for p in profile %}
 
-                    <div class="col" style="background-color:black;">
+                    <div class="col" style="background-color:LightGray; ">
                               <div class="card" style="width:200px"><div class="text-center">
                                 <img class="rounded-circle" src="{{p.picture.url}}" alt="Card image" style="width:80%"></div>
                                 <div class="card-body">
