@@ -16,6 +16,10 @@ ul {
   background-color: #ffffff;
 }
 
+.bg-header {
+  background-color: #92a8d1;
+}
+
 .site-header .navbar-nav .nav-link {
   color: #000000;
 }

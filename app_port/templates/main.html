@@ -3,15 +3,6 @@
 {% block content %}
 <h5>Choose your tags:</h5>
 
-<!--{% for person in profile_chosen.values%}-->
-<!--{% for p in person%}-->
-    <!--<p>{{p.first_name}} {{p.last_name}}: {{p.bio}}</p>-->
-<!--{%endfor%}{%endfor%}-->
-
-
-<p>{% if just_logged_out %}  You are successfully logged out {% endif %}</p>
-
-
 <form method="post">{%csrf_token%}
 
 {% for tag in tags %}
