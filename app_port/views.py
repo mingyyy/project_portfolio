@@ -69,12 +69,13 @@ def main(request):
 
 def profile(request, profile_userid):
     # usernum is the chosen user's id
-    prof=Profile.objects.get(id=profile_userid)
-    pj=Project.objects.get(id=profile_userid)
-    tag=Tag.objects.get(id=profile_userid)
-    channel=Channel.objects.get(id=profile_userid)
-    context={"profile":prof, "project":pj, "tag":tag, "channel":channel}
-    return render(request, "profile.html")
+    user = User.objects.get(id=profile_userid)
+    projects = Project.objects.filter(userID=profile_userid)
+    tags = Tag.objects.filter(users=profile_userid)
+    channels = Channel.objects.filter(userID=profile_userid)
+
+    context = {"user": user, "projects": projects, "channels": channels, "tags": tags}
+    return render(request, "profile.html", context)
 
 
 def about(request):
@@ -134,12 +135,8 @@ def edit(request):
 
         elif "picture" in request.FILES:
             #delete existing picture:
-            filepath = os.path.join(BASE_DIR, "app_port/media/profile_pictures/")
             filename = "userID" + str(user.id)
-            try:
-                os.remove(filepath + filename)
-            except FileNotFoundError:
-                pass
+            path_old_picture = user.profile.picture.path
 
             #open the new picture
             fin1 = Image.open(request.FILES['picture'])
@@ -170,6 +167,11 @@ def edit(request):
             fin2.save(fp=img_io, format="JPEG")
             image = ContentFile(img_io.getvalue())
             user.profile.picture.save(filename, InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
+            try:
+                os.remove(path_old_picture)
+            except FileNotFoundError:
+                pass
+
 
     channels = Channel.objects.filter(userID=user.id)
     projects = Project.objects.filter(userID=user.id)
@@ -179,6 +181,7 @@ def edit(request):
     context["projects"]=projects
     context["user"]=user
     context["tags"]=tags
+    print(user.id)
 
     return render(request, "edit.html", context)
 
