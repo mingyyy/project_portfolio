@@ -1,6 +1,65 @@
 {% extends "base.html" %}
-{% load static %}
-{% block content %}
-<h2>Profile page     </h2>
 
-{% endblock%}
+{% block content %}
+<div class="row">
+    <div class="col-sm-3">
+        {% if user.profile.picture %}
+            <img src="{{user.profile.picture.url}}" alt="profile picture" width="100%"><br>
+        {% endif %}
+    </div>
+    <div class="col-sm-6">
+        <div class="form-row">
+            <h4>Hi! I am {{user.first_name}} {{user.last_name}},</h4>
+        </div>
+         <div class="form-row">
+             <div class="form-row">
+                <p>{{user.profile.bio}}</p>
+             </div>
+             <div class="form-row">
+                 {% if tags %}
+                 {% for tag in tags %}
+                 <div class="btn-group">
+                     <button class="btn btn-primary" name="tag">{{tag.name}}</button>
+                 </div>
+                 {% endfor %}
+                {% endif %}
+             </div>
+
+         </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-row">
+            <h4>Follow or contact me:</h4>
+        </div>
+        {% for channel in channels %}
+        <div class="form-row">
+            <a href="{{channel.url}}">{{channel.name}}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col">
+         <h4>Projects I worked on:</h4>
+        {% for project in projects %}
+            <div class="form-row">
+                <div class="col">
+                    <h4><a href="{{project.url}}">{{project.name}}</a></h4>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    {{project.description}}
+                </div>
+            </div>
+        <br>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}
