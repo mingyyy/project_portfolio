@@ -3,17 +3,17 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-3">
-        {% if user.profile.picture %}
-            <img src="{{user.profile.picture.url}}" alt="profile picture" width="90%"><br>
+        {% if profile.profile.picture %}
+            <img src="{{profile.profile.picture.url}}" alt="profile picture" width="90%"><br>
         {% endif %}
     </div>
     <div class="col-sm-6">
         <div class="row">
-            <h4>Hi! I am {{user.first_name}} {{user.last_name}},</h4>
+            <h4>Hi! I am {{profile.first_name.title}} {{profile.last_name.title}},</h4>
         </div>
          <div class="row">
              <div class="col">
-                 <p>{{user.profile.bio}}</p>
+                 <p>{{profile.profile.bio}}</p>
              </div>
          </div>
          <div class="row">
