@@ -8,10 +8,11 @@
 
 <form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="form1">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             {% if user.profile.picture %}
-                <img class="rounded-circle" src="{{user.profile.picture.url}}" alt="profile picture" width="80%"><br>
+                <img class="rounded-circle" src="{{user.profile.picture.url}}" alt="profile picture" width="100%"><br>
             {% endif %}
+            <br>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <input type="file" onchange="this.form.submit()" name="picture" class="custom-file-input" id="inputGroupFile01">
@@ -21,7 +22,7 @@
         </div>
 
 
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <div class="form-row">
                 <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn btn-info">
             </div>
@@ -47,7 +48,7 @@
                     Bio
                 </div>
                 <div class="col-sm-10">
-                    <textarea name="bio" class="form-control" style="height: 195px">{{user.profile.bio}} </textarea>
+                    <textarea name="bio" class="form-control" style="height: 160px">{{user.profile.bio}} </textarea>
                 </div>
             </div>
         </div>
