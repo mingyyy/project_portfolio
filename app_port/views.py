@@ -69,12 +69,12 @@ def main(request):
 
 def profile(request, profile_userid):
     # usernum is the chosen user's id
-    user = User.objects.get(id=profile_userid)
+    profile = User.objects.get(id=profile_userid)
     projects = Project.objects.filter(userID=profile_userid)
     tags = Tag.objects.filter(users=profile_userid)
     channels = Channel.objects.filter(userID=profile_userid)
 
-    context = {"user": user, "projects": projects, "channels": channels, "tags": tags}
+    context = {"profile": profile, "projects": projects, "channels": channels, "tags": tags}
     return render(request, "profile.html", context)
 
 
