@@ -1,13 +1,16 @@
     {% extends "base.html" %}
 
 {% block content %}
+<legend class="border-bottom mb-4">
     <h5>Hello {{user.username}}! Edit your profile here.</h5>
+</legend>
+
 
 <form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="form1">
     <div class="row">
         <div class="col-sm-4">
             {% if user.profile.picture %}
-                <img src="{{user.profile.picture.url}}" alt="profile picture" width="100%"><br>
+                <img class="rounded-circle" src="{{user.profile.picture.url}}" alt="profile picture" width="80%"><br>
             {% endif %}
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -20,8 +23,9 @@
 
         <div class="col-sm-8">
             <div class="form-row">
-                <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn">
+                <input type="submit" name="save_profile" value="Save profile" form="form1" class="btn btn-info">
             </div>
+            <br>
             <div class="form-row">
                 <div class="col-sm-2">
                     First name
@@ -43,7 +47,7 @@
                     Bio
                 </div>
                 <div class="col-sm-10">
-                    <textarea name="bio" class="form-control">{{user.profile.bio}} </textarea>
+                    <textarea name="bio" class="form-control" style="height: 195px">{{user.profile.bio}} </textarea>
                 </div>
             </div>
         </div>
@@ -53,9 +57,9 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-sm-6">
-              <input type="submit" name="new_channel" value="Add channel" class="btn" form="form1">
-              <input type="submit" name="delete_channel" value="Delete selected channels" form="form1" class="btn">
-                <br>
+              <input type="submit" name="new_channel" value="Add channel" class="btn btn-success" form="form1">
+              <input type="submit" name="delete_channel" value="Delete selected channels" form="form1" class="btn btn-secondary">
+                <br><br>
                 {% for channel in channels %}
                  <div class="form-row">
                     <div class="col-2">
@@ -73,9 +77,9 @@
             </div>
 
             <div class="col-sm-6">
-                <input type="submit" name="new_project" value="Add project" class="btn" form="form1">
-                <input type="submit" name="delete_project" value="Delete selected projects" form="form1" class="btn">
-                <br>
+                <input type="submit" name="new_project" value="Add project" class="btn btn-success" form="form1">
+                <input type="submit" name="delete_project" value="Delete selected projects" form="form1" class="btn btn-secondary">
+                <br><br>
                 {% for project in projects %}
                     <div class="form-row">
                         <div class="col-2">
