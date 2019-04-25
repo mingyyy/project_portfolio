@@ -28,7 +28,7 @@ def main(request):
     choices = {}
     profile_set, project_set, userids, readylist = [],[],[],[]
     # collect id for ready is True
-    if prof:
+    if not prof:
         for x in prof:
             readylist.append(x.user.id)
 
