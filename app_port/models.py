@@ -4,16 +4,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     # default: somewhere in the world
     currentlocation = models.CharField(max_length=50, blank=True)
     # ready or not to publish
-    ready=models.BooleanField(default=False)
-    picture = models.ImageField(upload_to='profile_pictures', blank=True )
+    ready = models.BooleanField(default=False)
+    picture = models.ImageField(upload_to='profile_pictures', blank=True)
+
+    def __str__(self):
+        return self.user
 
 
     @receiver(post_save, sender=User)
@@ -27,10 +28,10 @@ class Profile(models.Model):
 
 
 class Project(models.Model):
-    userID=models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=False, blank=False)
-    name=models.CharField(max_length=120,null=False)
-    description=models.TextField()
-    url=models.URLField()
+    userID = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=False, blank=False)
+    name = models.CharField(max_length=120,null=False)
+    description = models.TextField()
+    url = models.URLField()
 
     def __str__(self):
         return self.name
