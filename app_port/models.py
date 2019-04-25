@@ -14,7 +14,7 @@ class Profile(models.Model):
     picture = models.ImageField(upload_to='profile_pictures', blank=True)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
     @receiver(post_save, sender=User)
