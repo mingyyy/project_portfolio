@@ -51,6 +51,20 @@
                     <textarea name="bio" class="form-control" style="height: 160px">{{user.profile.bio}} </textarea>
                 </div>
             </div>
+            <div class="form-row">
+
+                <div class="form-check">
+                 {% if user.profile.ready == False %}
+                    <input class="form-check-input" type="checkbox" name="ready" value="True" id="no">
+                 {% else %}
+                    <input class="form-check-input" type="checkbox" checked name="False" value="change" id="yes">
+                 {% endif %}
+                  <label class="form-check-label" for="yes">
+                    Ready to publish
+                  </label>
+                </div>
+
+            </div>
         </div>
     </div>
 

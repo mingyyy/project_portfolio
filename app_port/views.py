@@ -14,8 +14,8 @@ from django.core.files.base import ContentFile
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-# from project_portfolio.settings import BASE_DIR
 import os
+
 
 @receiver(user_logged_out)
 def on_user_logged_out(sender, request, **kwargs):
@@ -26,9 +26,9 @@ def main(request):
     prof=Profile.objects.filter(ready=True) # Query_set
     tag = Tag.objects.all()
     choices = {}
-    profile_set, project_set, userids, readylist = [],[],[],[]
+    profile_set, project_set, userids, readylist = [], [], [], []
     # collect id for ready is True
-    if not prof:
+    if prof:
         for x in prof:
             readylist.append(x.user.id)
 
@@ -52,6 +52,7 @@ def main(request):
             selected_tags = Tag.objects.filter(name=s)
             for t in selected_tags:
                 for v in t.users.all().values():
+
                     if v["id"] in readylist:
                         if len(profile_set) == 0:
                             userids.append(v["id"])
@@ -89,6 +90,11 @@ def edit(request):
     user = request.user
 
     def save_profile(request, user):
+        try:
+            user.profile.ready=request.POST["ready"]
+        except:
+            user.profile.ready = False
+
         user.first_name = request.POST["first_name"]
         user.last_name = request.POST["last_name"]
         user.profile.bio = request.POST["bio"]
@@ -108,7 +114,6 @@ def edit(request):
                 project.url = request.POST.getlist(key)[1]
                 project.description = request.POST.getlist(key)[2]
                 project.save()
-
 
     if request.method == 'POST':
         save_profile(request, user)
@@ -137,7 +142,8 @@ def edit(request):
         elif "picture" in request.FILES:
             #delete existing picture:
             filename = "userID" + str(user.id)
-            path_old_picture = user.profile.picture.path
+            if user.profile.picture:
+                path_old_picture = user.profile.picture.path
 
             #open the new picture
             fin1 = Image.open(request.FILES['picture'])
@@ -168,10 +174,12 @@ def edit(request):
             fin2.save(fp=img_io, format="JPEG")
             image = ContentFile(img_io.getvalue())
             user.profile.picture.save(filename, InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
-            try:
-                os.remove(path_old_picture)
-            except FileNotFoundError:
-                pass
+
+            if not user.profile.picture:
+                try:
+                    os.remove(path_old_picture)
+                except FileNotFoundError:
+                    pass
 
 
     channels = Channel.objects.filter(userID=user.id)
@@ -182,7 +190,7 @@ def edit(request):
     context["projects"]=projects
     context["user"]=user
     context["tags"]=tags
-    print(user.id)
+    # print(user.id)
 
     return render(request, "edit.html", context)
 
