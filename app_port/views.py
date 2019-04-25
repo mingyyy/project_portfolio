@@ -14,7 +14,7 @@ from django.core.files.base import ContentFile
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from project_portfolio.settings import BASE_DIR
+# from project_portfolio.settings import BASE_DIR
 import os
 
 @receiver(user_logged_out)
@@ -28,8 +28,9 @@ def main(request):
     choices = {}
     profile_set, project_set, userids, readylist = [],[],[],[]
     # collect id for ready is True
-    for x in prof:
-        readylist.append(x.user.id)
+    if prof:
+        for x in prof:
+            readylist.append(x.user.id)
 
     if request.method == 'POST':
         if "tag" in request.POST:
