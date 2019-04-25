@@ -1,10 +1,9 @@
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <legend class="border-bottom mb-4">
     <h5>Hello {{user.username.title}}! Edit your profile here.</h5>
 </legend>
-
 
 <form action="{% url 'app_port:edit' %}" method="post" enctype="multipart/form-data" id="form1">
     <div class="row">

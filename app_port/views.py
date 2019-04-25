@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
@@ -8,7 +6,7 @@ from django.contrib import messages
 from .models import Profile, Project, Tag, Channel
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import Project, Channel, Tag
+from .forms import TagForm
 from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
 from PIL import Image
@@ -180,7 +178,8 @@ def edit(request):
                     os.remove(path_old_picture)
                 except FileNotFoundError:
                     pass
-
+    else:
+        form_tag=TagForm
 
     channels = Channel.objects.filter(userID=user.id)
     projects = Project.objects.filter(userID=user.id)
@@ -194,4 +193,17 @@ def edit(request):
 
     return render(request, "edit.html", context)
 
+@login_required
+def tag(request):
+    user=request.user
 
+    if request.method == 'POST':
+        # pass the forms to choose Tags
+        form_tag = TagForm(request.POST)
+        if form_tag.is_valid():
+            picked = form_tag.cleaned_data.get("picked")
+            print(picked)
+            # user.tag_set = picked
+    else:
+        form_tag=TagForm
+    return render(request, "tag.html", {"form_tag":form_tag})

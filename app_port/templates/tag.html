@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<legend class="border-bottom mb-4">
+    <h5>Hello {{user.username.title}}! Edit your profile here.</h5>
+</legend>
+
+<form action="{% url 'app_port:tag' %}" method="post" id="form0">
+    {%csrf_token%}
+    {{ form_tag.as_p }}
+    <input type='submit' value='submit'>
+</form>
+{% endblock content %}
