@@ -32,11 +32,17 @@ class Project(models.Model):
     description=models.TextField()
     url=models.URLField()
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     category=models.CharField(max_length=50, null=False)
     name=models.CharField(max_length=50,null=False)
     users=models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.name
 
 
 class Channel(models.Model):
@@ -44,4 +50,5 @@ class Channel(models.Model):
     name=models.CharField(max_length=100,null=False)
     url=models.URLField()
     
-
+    def __str__(self):
+        return self.name
