@@ -141,7 +141,7 @@ def edit(request):
             #delete existing picture:
             filename = "userID" + str(user.id)
             if user.profile.picture:
-                path_old_picture = user.profile.picture.path
+                path_old_picture = user.profile.picture.name
 
             #open the new picture
             fin1 = Image.open(request.FILES['picture'])
@@ -169,7 +169,7 @@ def edit(request):
 
             #save the new picture
             img_io = BytesIO()
-            fin2.save(fp=img_io, format="JPEG")
+            fin2.save(fp=img_io, format=fin1.format)
             image = ContentFile(img_io.getvalue())
             user.profile.picture.save(filename, InMemoryUploadedFile(image, None,"image name2",'image/jpeg',image.tell,None))
 
